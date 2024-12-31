@@ -98,12 +98,13 @@ public class MessageDAO {
             Connection connection = ConnectionUtil.getConnection();
             String sql = "DELETE FROM Message WHERE message_id = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
+            Message CopyOfMessage = getMessageById(messageId);
 
             stmt.setInt(1,messageId);
 
             int updateRows = stmt.executeUpdate();
             if(updateRows > 0){
-                return getMessageById(messageId);
+                return CopyOfMessage;
             }
         }catch(SQLException e){
             e.printStackTrace();

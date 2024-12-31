@@ -95,6 +95,7 @@ public class SocialMediaController {
         try {
             Message message = cxt.bodyAsClass(Message.class);
 
+            
             Message created = messageService.createMessage(message);
             cxt.json(mapper.writeValueAsString(created));
             cxt.status(200);
@@ -135,9 +136,9 @@ public class SocialMediaController {
     private void handleUpdateMessage(Context cxt) throws JacksonException{
         try{
             int messageId = Integer.parseInt(cxt.pathParam("message_id"));
-            String newMessageText = cxt.formParam("message_text");
+            Message newMessageText = cxt.bodyAsClass(Message.class); //edited line
 
-            Message updatedMessage = messageService.updateMessage(messageId, newMessageText);
+            Message updatedMessage = messageService.updateMessage(messageId, newMessageText.getMessage_text());
             cxt.json(updatedMessage);
             cxt.status(200).json(updatedMessage);
         } catch (IllegalArgumentException e) {
